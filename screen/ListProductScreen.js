@@ -16,7 +16,6 @@ class ListProductScreen extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log("navigation in product list", this.props.navigation);
         if (Constants.FAKE) {
             if (this.props.navigation.state.params.isProductInCartList) {
                 this.state = {
@@ -60,14 +59,20 @@ class ListProductScreen extends React.Component {
             }
 
         } else {
-            this.state = {
-                listProduct: []
+            if (this.props.navigation.state.params.isProductInCartList) {
+                this.state = {
+                    listProduct: this.props.productsInCart
+                }
+            } else {
+                this.state = {
+                    currentCategory: this.props.navigation.state.params.category,
+                    listProduct: []
+                }
             }
         }
     }
 
     render() {
-
         return <View>
             <FlatList
                 data={this.state.listProduct}
@@ -89,14 +94,19 @@ class ListProductScreen extends React.Component {
             // onUpdateProductInCart: this.onUpdateProductInCart
         })
     }
-    onUpdateProductInCart = productInCart => {
-        this.setState({
-            productsInCart: this.state.productsInCart !== undefined ? [...this.state.productsInCart, productInCart] : [productInCart]
-        });
-        if (!this.props.navigation.state.params.isProductInCartList) {
-            // this.props.navigation.state.params.onUpdateProductsInCart(this.state.productsInCart);
+
+    componentDidMount() {
+        if (!this.props.navigation.state.params.isProductInCartList){
+            return fetch(Constants.API_BASE_URL+"/category_list/"+this.state.currentCategory.id+"/product_isist")
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    this.setState({listProduct: responseJson});
+                })
+                .catch((error) =>{
+                    console.error(error);
+                });
         }
-        console.log("product list products In cart", this.state.productsInCart);
+
     }
 }
 const mapStateToProps = state =>({

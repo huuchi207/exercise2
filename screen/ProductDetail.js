@@ -8,7 +8,6 @@ class ProductDetail extends React.Component {
     constructor(props) {
         super(props);
         this.productDetail  = this.props.navigation.getParam('productDetail');
-        console.log(this.productDetail);
     }
 
     render() {

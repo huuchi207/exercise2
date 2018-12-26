@@ -16,9 +16,8 @@ class ListProductCategoryScreen extends React.Component {
                     <TouchableOpacity onPress={() => {
                         navigation.push("ListProductScreen", {
                             isProductInCartList : true,
-                            productsInCart : navigation.getParam("productsInCart"),
                         });
-                    }}>
+                    }}>{console.log("navigation.state", navigation.state)}
                         <IconBadge
                             MainElement={
                                 <View style={{backgroundColor:'#489EFE',
@@ -28,8 +27,10 @@ class ListProductCategoryScreen extends React.Component {
                                 }}/>
                             }
                             BadgeElement={
-                                <Text style={{color:'#FFFFFF'}}>{
-                                    navigation.getParam("numberOfProductsInCart")
+                                <Text style={{color:'#FFFFFF'}}
+                                >{
+                                    navigation.state && navigation.state.params && navigation.state.params.numberOfProductsInCart
+                                    // this.props.productsInCart!= undefined ? this.props.productsInCart.length : "0"
                                 }</Text>
                             }
                             IconBadgeStyle={
@@ -44,17 +45,30 @@ class ListProductCategoryScreen extends React.Component {
         };
     };
     componentDidMount() {
+        // this.props.navigation.state.params.numberOfProductsInCart = this.props.productsInCart!= undefined ? this.props.productsInCart.length : "0";
 
+        this.props.navigation.setParams({"numberOfProductsInCart" : this.props.productsInCart.length});
+        console.log("this.props.navigation", this.props.navigation);
+        console.log("this.props.navigation.getParam(numberOfProductsInCart)", this.props.navigation.getParam("numberOfProductsInCart"));
+        return fetch(Constants.API_BASE_URL+"category_list", {method: "GET"})
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({listCategory: responseJson});
+            })
+            .catch((error) =>{
+                console.error(error);
+            });
+    }
+
+    componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
+        if (this.props.productsInCart !== nextProps.productsInCart) {
+            this.props.navigation.setParams({"numberOfProductsInCart" : nextProps.productsInCart.length});
+        }
     }
 
     constructor(props) {
         super(props);
 
-    }
-
-    render() {
-        this.props.navigation.numberOfProductsInCart = this.props.productsInCart!== undefined ? this.props.productsInCart.length : 0;
-        console.log("this.props.productsInCart", this.props.productsInCart);
         if (Constants.FAKE) {
             this.state = {
                 listCategory: [
@@ -80,6 +94,12 @@ class ListProductCategoryScreen extends React.Component {
                 listCategory: []
             }
         }
+
+    }
+
+    render() {
+        // console.log(" this.props.productsInCart in ListProductCat",  this.props.productsInCart);
+        // console.log(" this.props.navigation.numberOfProductsInCart",  this.props.navigation.getParam("numberOfProductsInCart"));
         return <View>
             <FlatList
                 data={this.state.listCategory}
@@ -99,14 +119,6 @@ class ListProductCategoryScreen extends React.Component {
             category: this.state.listCategory[index],
             isProductInCartList : false
         })
-    }
-    onUpdateProductsInCart= productsInCart =>{
-                this.setState({productsInCart});
-                this.props.navigation.setParams(
-                    { productsInCart})
-
-        console.log("product cate products In cart",  this.state.productsInCart);
-
     }
 
 
