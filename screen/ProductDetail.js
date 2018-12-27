@@ -2,7 +2,7 @@ import React from "react";
 import {View, Text, Button, Dimensions, Image, StyleSheet} from "react-native";
 import * as Constants from "../Constants";
 import {connect} from "react-redux";
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 
 class ProductDetail extends React.Component {
     constructor(props) {

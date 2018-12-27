@@ -5,7 +5,7 @@ import * as Constants from "../Constants";
 import CustomGridItem from "../customview/CustomGridItem";
 import IconBadge from 'react-native-icon-badge';
 import {connect} from 'react-redux';
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 
 class ListProductCategoryScreen extends React.Component {
     static navigationOptions = ({navigation}) => {
@@ -111,6 +111,7 @@ class ListProductCategoryScreen extends React.Component {
                                     }}/>
                 )}
                 numColumns={2}
+                keyExtractor={(item, index) => item.id}
             /></View>;
     }
 

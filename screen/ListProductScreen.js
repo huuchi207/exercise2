@@ -4,7 +4,7 @@ import * as Constants from "../Constants";
 import CustomProductItem from "../customview/CustomProductItem";
 import IconBadge from "./ListProductCategoryScreen";
 import {connect} from 'react-redux';
-import * as actions from '../actions';
+import * as actions from '../redux/actions';
 class ListProductScreen extends React.Component {
     static navigationOptions = ({navigation, navigationOptions}) => {
         const {params} = navigation.state;
@@ -85,6 +85,7 @@ class ListProductScreen extends React.Component {
                                        }}/>
                 )}
                 numColumns={1}
+                keyExtractor={(item, index) => item.product_id}
             /></View>;
     }
 

@@ -12,7 +12,8 @@ import {createStackNavigator, createAppContainer} from "react-navigation";
 import ListProductCategoryScreen from "./screen/ListProductCategoryScreen";
 import ListProductScreen from "./screen/ListProductScreen";
 import ProductDetail from "./screen/ProductDetail";
-import store from './store';
+import SectionListScreen from "./screen/SectionListScreen";
+import store from './redux/store';
 import {Provider} from 'react-redux';
 
 type Props = {};
@@ -31,10 +32,11 @@ const AppNavigator = createStackNavigator(
     {
         ListProductCategoryScreen,
         ListProductScreen,
-        ProductDetail
+        ProductDetail,
+        SectionListScreen
     },
     {
-        initialRouteName: "ListProductCategoryScreen",
+        initialRouteName: "SectionListScreen",
         defaultNavigationOptions: {
 
         }
