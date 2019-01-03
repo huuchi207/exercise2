@@ -15,6 +15,7 @@ import ProductDetail from "./screen/ProductDetail";
 import SectionListScreen from "./screen/SectionListScreen";
 import store from './redux/store';
 import {Provider} from 'react-redux';
+import TabViewUsingScrollView from "./screen/TabViewUsingScrollView";
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -33,10 +34,11 @@ const AppNavigator = createStackNavigator(
         ListProductCategoryScreen,
         ListProductScreen,
         ProductDetail,
-        SectionListScreen
+        SectionListScreen,
+        TabViewUsingScrollView
     },
     {
-        initialRouteName: "SectionListScreen",
+        initialRouteName: "TabViewUsingScrollView",
         defaultNavigationOptions: {
 
         }
